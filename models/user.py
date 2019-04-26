@@ -6,5 +6,7 @@ class User(BaseModel):
     username = pw.CharField(unique=True, null=False)
     email = pw.CharField(unique = True, null =False)
     password = pw.CharField(unique=False,null = False)
+    profilepic = pw.CharField(null=True)
+    bio = pw.CharField(null=True, max_length=600)
     
     
