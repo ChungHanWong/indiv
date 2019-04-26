@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request,redirect, url_for,json
+from flask_cors import CORS
+from models.user import User
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 users_blueprint = Blueprint('users',
@@ -6,31 +9,11 @@ users_blueprint = Blueprint('users',
                             template_folder='templates')
 
 
-@users_blueprint.route('/new', methods=['GET'])
-def new():
-    return render_template('users/new.html')
-
-
 @users_blueprint.route('/', methods=['POST'])
-def create():
-    pass
-
-
-@users_blueprint.route('/<username>', methods=["GET"])
-def show(username):
-    pass
-
-
-@users_blueprint.route('/', methods=["GET"])
-def index():
-    return "USERS"
-
-
-@users_blueprint.route('/<id>/edit', methods=['GET'])
-def edit(id):
-    pass
-
-
-@users_blueprint.route('/<id>', methods=['POST'])
-def update(id):
-    pass
+def signup():
+    username = request.json.get('username')
+    email = request.json.get('email')
+    password = request.json.get('password')
+    hashed = generate_password_hash(password)
+    user = User.create(username=username,email=email,password=hashed)
+    return "yay"
