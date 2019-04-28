@@ -2,6 +2,7 @@ from models.base_model import BaseModel
 import peewee as pw
 from playhouse.hybrid import hybrid_property
 from app import app
+from models.user import User
 
 
 class Picture(BaseModel):

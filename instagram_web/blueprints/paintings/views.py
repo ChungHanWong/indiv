@@ -19,12 +19,13 @@ def paintingsubmit():
     name = request.form.get('name')
     category = request.form.get('category')
     description = request.form.get('description')
+    userid = request.form.get('id')
     file = request.files["picture"]
 
     if file and allowed_file(file.filename):
         file.filename = secure_filename(file.filename)
         output = upload_file_to_s3(file, app.config["S3_BUCKET"])
-        picture = Picture.create(name=name,description=description,category=category,image=file.filename)
+        picture = Picture.create(name=name,description=description,category=category,image=file.filename,artist_id=userid)
     return make_response('Artwork Submitted')
 
 
