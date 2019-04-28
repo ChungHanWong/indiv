@@ -10,6 +10,9 @@ class Picture(BaseModel):
     description = pw.CharField(unique=False,null = True)
     image = pw.CharField(unique = False,null = True)
     price =pw.CharField(default=0)
+    artist_id = pw.ForeignKeyField(User, backref="artists", null =True)
+    bidder_id = pw.ForeignKeyField(User, backref="bidders", null =True)
+    buyer_id = pw.ForeignKeyField(User, backref="bidders", null =True)
 
     @hybrid_property
     def profilepic_url(self):
