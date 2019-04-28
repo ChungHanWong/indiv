@@ -24,12 +24,12 @@ def login () :
 
     
     if user and check_password_hash(user.password, password) :
-        access_token = create_access_token(identity= {"username" :user.username, "id":user.id, "email":user.email, "profilepic":user.profilepic, "bio":user.bio})
+        access_token = create_access_token(identity= {"username" :user.username, "id":user.id, "email":user.email, "profilepic":user.profilepic_url, "bio":user.bio})
         return jsonify({"access_token":access_token,
                         "username" : user.username,
                         "email": user.email,
                         "id":user.id,
-                        "profilepic":user.profilepic,
+                        "profilepic":user.profilepic_url,
                         "bio":user.bio}),200
     return make_response('Wrong Email or Password')
     

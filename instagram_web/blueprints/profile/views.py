@@ -20,3 +20,27 @@ profile_blueprint = Blueprint('profile',
 def profile () :
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user),200
+
+@profile_blueprint.route('/edit', methods=['POST'])
+def editprofile () :
+    file = request.files["picture"]
+    username = request.form.get('username')
+    
+    # user= User.get(User.username==username)
+    if file and allowed_file(file.filename):
+        file.filename = secure_filename(file.filename)
+        output = upload_file_to_s3(file, app.config["S3_BUCKET"])
+        
+        user = User.get(User.username==username)
+        
+        user.profilepic = file.filename
+        user.save()
+        # q = (User
+        # .update({User.profilepic: file.filename})
+        # .where(User.username == username))
+        # q.execute() 
+        profilepic = user.profilepic_url
+        
+        return jsonify(profilepic = user.profilepic_url)
+
+    pass
