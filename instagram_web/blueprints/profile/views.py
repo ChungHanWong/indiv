@@ -44,3 +44,12 @@ def editprofile () :
         return jsonify(profilepic = user.profilepic_url)
 
     pass
+
+@profile_blueprint.route('/editbio', methods=['POST'])
+def editbio() :
+    username = request.form.get('username')
+    bio = request.form.get('bio')
+    user = User.get(User.username==username)
+    user.bio  = bio
+    user.save()
+    return jsonify(bio = user.bio)
