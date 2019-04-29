@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request,redirect, url_for,json,jsonify
+from flask import Blueprint, render_template, request,redirect, url_for,jsonify
 from models.user import User
 from models.picture import Picture
 import jwt
@@ -10,6 +10,7 @@ from flask_jwt_extended import (
 )
 from helper import *
 from werkzeug.utils import secure_filename
+import json
 
 
 profile_blueprint = Blueprint('profile',
@@ -17,10 +18,25 @@ profile_blueprint = Blueprint('profile',
                             template_folder='templates')
 
 @profile_blueprint.route('/', methods=['GET'])
-
+@jwt_required
 def profile () :
     current_user = get_jwt_identity()
-    return jsonify(logged_in_as=current_user),200
+    
+    allpic = Picture.select().where(Picture.artist_id==current_user)
+    pics_info= []
+    for a in allpic :
+        picpic = {}
+        picpic['name'] = a.name
+        picpic['category'] = a.category
+        picpic['description'] = a.description
+        paint = Picture.get(Picture.name == a.name).profilepic_url
+        picpic['image'] = paint
+        picpic['id'] = a.id
+        picpic['price'] = a.price
+        pics_info.append(picpic)
+
+    return jsonify(pics_info)
+
 
 @profile_blueprint.route('/edit', methods=['POST'])
 def editprofile () :
