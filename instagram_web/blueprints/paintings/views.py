@@ -61,6 +61,7 @@ def detail(id):
     picpic['image'] = paint
     picpic['price'] = a.price
     picpic['artist'] = artist_name
+    picpic['artist_id'] = str(artist)
     return jsonify(picpic)
 
 @paintings_blueprint.route('/bid', methods=['POST'])
