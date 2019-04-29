@@ -33,7 +33,13 @@ def profile () :
         picpic['image'] = paint
         picpic['id'] = a.id
         picpic['price'] = a.price
-        pics_info.append(picpic)
+        if a.bidder_id :
+            user = User.get(User.id == a.bidder_id)
+            picpic['bidder_name'] = user.username
+            pics_info.append(picpic)
+        else:
+            picpic['bidder_name'] = "None"
+            pics_info.append(picpic)
 
     return jsonify(pics_info)
 
@@ -70,3 +76,37 @@ def editbio() :
     user.bio  = bio
     user.save()
     return jsonify(bio = user.bio)
+
+
+
+@profile_blueprint.route('/others/<id>', methods=['GET'])
+def otherprofiles(id):
+    user = User.get(User.id == id)
+    
+    allinfo = {}
+    allinfo['username'] = user.username
+    allinfo['bio'] = user.bio
+    allinfo['profilepic'] = user.profilepic_url
+    
+    allpic = Picture.select().where(Picture.artist_id==id)
+    pics_info= []
+    for a in allpic :
+        picpic = {}
+        picpic['name'] = a.name
+        picpic['category'] = a.category
+        picpic['description'] = a.description
+        paint = Picture.get(Picture.name == a.name).profilepic_url
+        picpic['image'] = paint
+        picpic['id'] = a.id
+        picpic['price'] = a.price
+        if a.bidder_id :
+            user = User.get(User.id == a.bidder_id)
+            picpic['bidder_name'] = user.username
+            pics_info.append(picpic)
+        else:
+            picpic['bidder_name'] = "None"
+            pics_info.append(picpic)
+
+    allinfo['artwork'] = pics_info
+    
+    return jsonify(allinfo)
