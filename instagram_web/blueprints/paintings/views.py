@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request,redirect, url_for,json,jsonify,make_response
 from models.picture import Picture
+from models.user import User
 from helper import *
 from werkzeug.utils import secure_filename
 from models.picture import Picture
@@ -49,6 +50,9 @@ def offer():
 @paintings_blueprint.route('/offer/<id>', methods=['GET'])
 def detail(id):
     a = Picture.get(Picture.id == id)
+    artist = a.artist_id
+    user = User.get(User.id== artist)
+    artist_name = user.username
     picpic = {}
     picpic['name'] = a.name
     picpic['category'] = a.category
@@ -56,7 +60,24 @@ def detail(id):
     paint = Picture.get(Picture.name == a.name).profilepic_url
     picpic['image'] = paint
     picpic['price'] = a.price
+    picpic['artist'] = artist_name
     return jsonify(picpic)
+
+@paintings_blueprint.route('/bid', methods=['POST'])
+def bid () :
+    description = request.form.get('description')
+    price = request.form.get('price')
+    bidprice= int(price)
+    user_id = request.form.get('id')
+    pic = Picture.get(Picture.description==description)
+    currentprice = int(pic.price)
+    if currentprice < bidprice :
+        pic.price = price
+        pic.bidder_id = user_id
+        pic.save()
+        return jsonify (message= "You are currently the highest bidder")
+    else :
+        return jsonify(message= "You are not the highest bidder")
     
     
 

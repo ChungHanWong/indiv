@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request,redirect, url_for,json,jsonify
 from models.user import User
+from models.picture import Picture
 import jwt
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -16,7 +17,7 @@ profile_blueprint = Blueprint('profile',
                             template_folder='templates')
 
 @profile_blueprint.route('/', methods=['GET'])
-@jwt_required
+
 def profile () :
     current_user = get_jwt_identity()
     return jsonify(logged_in_as=current_user),200
