@@ -14,3 +14,15 @@ sold_blueprint = Blueprint('sold',
                             __name__,
                             template_folder='templates')
 
+@sold_blueprint.route('/', methods=['POST'])
+def sold () :
+    
+    pic_id = request.form.get('id')
+    
+    picture = Picture.get(Picture.id == pic_id)
+    
+    picture.buyer_id = picture.bidder_id
+    picture.sold = True
+    picture.save()
+    return jsonify(message="You Have Accepted the Bidder's Offer")
+    
