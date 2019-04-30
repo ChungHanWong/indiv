@@ -3,7 +3,6 @@ from models.picture import Picture
 from models.user import User
 from helper import *
 from werkzeug.utils import secure_filename
-from models.picture import Picture
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
