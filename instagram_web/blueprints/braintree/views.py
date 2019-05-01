@@ -35,9 +35,9 @@ def new_checkout():
 @braintree_blueprint.route('/checkouts', methods=['POST'])
 def create_checkout():
     nonce =request.json.get('payment_method_nonce')
-    
+    amount =request.json.get('amount')
     result = transact({
-        'amount': 100,
+        'amount': amount,
         'payment_method_nonce': nonce,
         'options': {
             "submit_for_settlement": True

@@ -16,13 +16,40 @@ sold_blueprint = Blueprint('sold',
 
 @sold_blueprint.route('/', methods=['POST'])
 def sold () :
-    
     pic_id = request.form.get('id')
-    
     picture = Picture.get(Picture.id == pic_id)
-    
     picture.buyer_id = picture.bidder_id
     picture.sold = True
     picture.save()
     return jsonify(message="You Have Accepted the Bidder's Offer")
+
+
+@sold_blueprint.route('/purchase', methods=['GET'])
+@jwt_required
+def purchase () :
+    current_user = get_jwt_identity()
+    purchased_artwork = Picture.select().where(Picture.buyer_id==current_user)
+    purchased_info = []
+    for p in purchased_artwork :
+        art_art = {}
+        art_art['name'] = p.name
+        art_art['category'] = p.category
+        art_art['description'] = p.description
+        art = Picture.get(Picture.name == p.name).profilepic_url
+        art_art['image'] = art
+        art_art['id'] = p.id
+        art_art['price'] = p.price
+        art_art['paid'] = p.paid
+        purchased_info.append(art_art)
+
+    return jsonify(purchase=purchased_info)
+
+@sold_blueprint.route('/paid', methods=['POST'])
+def paid () :
+    pic_id = request.form.get('id')
+    picture = Picture.get(Picture.id == pic_id)
+    picture.paid = True
+    
+    picture.save()
+    return jsonify(message="You Purchased the Artwork!")
     

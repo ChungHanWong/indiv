@@ -43,19 +43,20 @@ def profile () :
             pics_info.append(picpic)
 
 
-    purchased_artwork = Picture.select().where(Picture.buyer_id==current_user)
-    purchased_info = []
-    for p in purchased_artwork :
-        art_art = {}
-        art_art['name'] = p.name
-        art_art['category'] = p.category
-        art_art['description'] = p.description
-        art = Picture.get(Picture.name == p.name).profilepic_url
-        art_art['image'] = art
-        art_art['id'] = p.id
-        art_art['price'] = p.price
+    # purchased_artwork = Picture.select().where(Picture.buyer_id==current_user)
+    # purchased_info = []
+    # for p in purchased_artwork :
+    #     art_art = {}
+    #     art_art['name'] = p.name
+    #     art_art['category'] = p.category
+    #     art_art['description'] = p.description
+    #     art = Picture.get(Picture.name == p.name).profilepic_url
+    #     art_art['image'] = art
+    #     art_art['id'] = p.id
+    #     art_art['price'] = p.price
+    #     purchased_info.append(art_art)
 
-    return jsonify(artwork=pics_info,purchase=purchased_info)
+    return jsonify(artwork=pics_info)
 
 
 @profile_blueprint.route('/edit', methods=['POST'])
