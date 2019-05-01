@@ -33,6 +33,7 @@ def profile () :
         picpic['image'] = paint
         picpic['id'] = a.id
         picpic['price'] = a.price
+        picpic['sold'] = a.sold
         if a.bidder_id :
             user = User.get(User.id == a.bidder_id)
             picpic['bidder_name'] = user.username
@@ -41,7 +42,20 @@ def profile () :
             picpic['bidder_name'] = "None"
             pics_info.append(picpic)
 
-    return jsonify(pics_info)
+
+    purchased_artwork = Picture.select().where(Picture.buyer_id==current_user)
+    purchased_info = []
+    for p in purchased_artwork :
+        art_art = {}
+        art_art['name'] = p.name
+        art_art['category'] = p.category
+        art_art['description'] = p.description
+        art = Picture.get(Picture.name == p.name).profilepic_url
+        art_art['image'] = art
+        art_art['id'] = p.id
+        art_art['price'] = p.price
+
+    return jsonify(artwork=pics_info,purchase=purchased_info)
 
 
 @profile_blueprint.route('/edit', methods=['POST'])
