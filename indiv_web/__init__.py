@@ -1,13 +1,15 @@
 from app import app
-from flask_cors import CORS
+
 from flask import render_template
+from flask_assets import Environment, Bundle
+from .util.assets import bundles
 
-cors = CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-## API Routes ##
-from indiv_web.blueprints.users.views import users_api_blueprint
+assets = Environment(app)
+assets.register(bundles)
 
 
-app.register_blueprint(users_api_blueprint, url_prefix='/api/v1/users')
+
+
+
 
 
