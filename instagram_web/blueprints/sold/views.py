@@ -31,7 +31,7 @@ def purchase () :
     purchased_artwork = Picture.select().where(Picture.buyer_id==current_user)
     bidding_artwork = Picture.select().where((Picture.bidder_id== current_user) & (Picture.buyer_id == None) )
     purchased_info = []
-    for p in purchased_artwork :
+    for p in purchased_artwork : 
         art_art = {}
         art_art['name'] = p.name
         art_art['category'] = p.category

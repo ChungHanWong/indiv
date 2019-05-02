@@ -61,6 +61,7 @@ def detail(id):
     picpic['price'] = a.price
     picpic['artist'] = artist_name
     picpic['artist_id'] = str(artist)
+    picpic['sold'] = a.sold
     return jsonify(picpic)
 
 @paintings_blueprint.route('/bid', methods=['POST'])
@@ -80,7 +81,11 @@ def bid () :
         return jsonify(message= "You are not the highest bidder")
     
     
-
-
+@paintings_blueprint.route('/delete', methods=['POST'])
+def delete () :
+    pic_id = request.form.get('id')
+    picture = Picture.get(Picture.id == pic_id)
+    picture.delete_instance()
+    return jsonify (message="Artwork Deleted")
 
 
