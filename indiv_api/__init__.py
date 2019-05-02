@@ -1,11 +1,11 @@
 from app import app
 from flask import render_template
-from instagram_web.blueprints.paintings.views import paintings_blueprint
-from instagram_web.blueprints.users.views import users_blueprint
-from instagram_web.blueprints.sessions.views import sessions_blueprint
-from instagram_web.blueprints.profile.views import profile_blueprint
-from instagram_web.blueprints.braintree.views import braintree_blueprint
-from instagram_web.blueprints.sold.views import sold_blueprint
+from indiv_api.blueprints.paintings.views import paintings_blueprint
+from indiv_api.blueprints.users.views import users_blueprint
+from indiv_api.blueprints.sessions.views import sessions_blueprint
+from indiv_api.blueprints.profile.views import profile_blueprint
+from indiv_api.blueprints.braintree.views import braintree_blueprint
+from indiv_api.blueprints.sold.views import sold_blueprint
 from flask_assets import Environment, Bundle
 from .util.assets import bundles
 
@@ -22,6 +22,7 @@ app.register_blueprint(sold_blueprint, url_prefix="/sold")
 @app.errorhandler(500)
 def internal_server_error(e):
     return render_template('500.html'), 500
+
 
 
 @app.route("/")
