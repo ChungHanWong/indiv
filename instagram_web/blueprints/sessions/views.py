@@ -23,14 +23,16 @@ def login () :
     user = User.get_or_none(User.email==email)
 
     
-    if user and check_password_hash(user.password, password) :
-        access_token = create_access_token(identity= user.id)
-        return jsonify({"access_token":access_token,
-                        "username" : user.username,
-                        "email": user.email,
-                        "id":user.id,
-                        "profilepic":user.profilepic_url,
-                        "bio":user.bio}),200
-    return make_response('Wrong Email or Password')
+    if user :
+        if check_password_hash(user.password, password) :
+                access_token = create_access_token(identity= user.id)
+                return jsonify({"access_token":access_token,
+                                "username" : user.username,
+                                "email": user.email,
+                                "id":user.id,
+                                "profilepic":user.profilepic_url,
+                                "bio":user.bio}),200
+        return jsonify(message="Wrong Password")
+    return jsonify(message='Email Address Does Not Exist')
     
 
