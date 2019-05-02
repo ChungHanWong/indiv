@@ -29,6 +29,7 @@ def sold () :
 def purchase () :
     current_user = get_jwt_identity()
     purchased_artwork = Picture.select().where(Picture.buyer_id==current_user)
+    bidding_artwork = Picture.select().where((Picture.bidder_id== current_user) & (Picture.buyer_id == None) )
     purchased_info = []
     for p in purchased_artwork :
         art_art = {}
@@ -41,8 +42,23 @@ def purchase () :
         art_art['price'] = p.price
         art_art['paid'] = p.paid
         purchased_info.append(art_art)
+    
+    bidding_info = []
 
-    return jsonify(purchase=purchased_info)
+    for b in bidding_artwork :
+        bid_bid = {}
+        bid_bid['name'] = b.name
+        bid_bid['category'] = b.category
+        bid_bid['description'] = b.description
+        art = Picture.get(Picture.name == b.name).profilepic_url
+        bid_bid['image'] = art
+        bid_bid['id'] = b.id
+        bid_bid['price'] = b.price
+        bid_bid['paid'] = b.paid
+        bidding_info.append(bid_bid)
+
+
+    return jsonify(purchase=purchased_info, bid =bidding_info)
 
 @sold_blueprint.route('/paid', methods=['POST'])
 def paid () :
