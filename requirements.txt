@@ -14,7 +14,6 @@ docutils==0.14
 Flask==1.0.2
 Flask-Assets==0.12
 Flask-Cors==3.0.7
-Flask-JWT==0.3.2
 Flask-JWT-Extended==3.18.1
 Flask-Login==0.4.1
 gunicorn==19.9.0
