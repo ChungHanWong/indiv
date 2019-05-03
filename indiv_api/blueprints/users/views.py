@@ -3,8 +3,7 @@ from flask_cors import CORS
 from models.user import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+    create_access_token
 )
 
 users_blueprint = Blueprint('users',

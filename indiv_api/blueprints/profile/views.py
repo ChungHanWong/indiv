@@ -4,7 +4,7 @@ from models.picture import Picture
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
+    jwt_required,
     get_jwt_identity
 )
 from helper import *
