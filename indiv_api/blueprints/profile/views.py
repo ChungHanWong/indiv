@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request,redirect, url_for,jsonify
 from models.user import User
 from models.picture import Picture
-import jwt
 import os
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import (
