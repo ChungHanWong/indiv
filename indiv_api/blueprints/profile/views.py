@@ -113,6 +113,7 @@ def otherprofiles(id):
         picpic['image'] = paint
         picpic['id'] = a.id
         picpic['price'] = a.price
+        picpic['sold'] = a.sold
         if a.bidder_id :
             user = User.get(User.id == a.bidder_id)
             picpic['bidder_name'] = user.username
